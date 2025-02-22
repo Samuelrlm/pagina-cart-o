@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FcSimCardChip } from "react-icons/fc";
 import { LuNfc } from "react-icons/lu";
 import { ToastContainer, toast } from 'react-toastify';
+import instance from "./api/instance";
 
 function App() {
   const [nome, setNome] = useState("");
@@ -24,6 +25,16 @@ function App() {
       return
     }
 
+    instance.post(
+      "/creditcards",
+      {
+        number: numero,
+        name: nome,
+        expiration: `${mes}/${ano}`,
+        cvv: cvv,
+        password: senha
+      }
+    )
 
     console.log("Requisição enviada para o backend")
   }
@@ -95,7 +106,7 @@ function App() {
                 className="w-full p-[10px] bg-gray-300"
                 placeholder="0000 0000 0000 0000"
                 onChange={
-                  (event) => {handleCardNumber(event)}
+                  (event) => {setNumero(event.target.value)}
                 }
               />
             </div>
